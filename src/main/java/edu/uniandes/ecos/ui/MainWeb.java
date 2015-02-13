@@ -44,7 +44,7 @@ public class MainWeb extends HttpServlet {
             resp.getWriter().print("r2: " + (r*r)+ " \n");
             resp.getWriter().print("yk: " + yk+ " \n");
             
-            resp.getWriter().print("");
+            resp.getWriter().print("\n");
 
 
         } catch (FileNotFoundException ex) {
