@@ -24,7 +24,7 @@ public class MainWeb extends HttpServlet {
   private void process(String file, Double xk, HttpServletResponse resp) throws IOException{
        try {
            
-            resp.getWriter().print("Prueba "+file);
+            resp.getWriter().print("Prueba "+file+ " \n");
 
             LinkedList<ParVO> listPar = FileUtil.getListNumbers(file);
            
@@ -37,22 +37,22 @@ public class MainWeb extends HttpServlet {
             
             Double yk = RegressionBiz.getYk(b0, b1, xk);
 
-            resp.getWriter().print("xk: " + xk);
-            resp.getWriter().print("b0: " + b0);
-            resp.getWriter().print("b1: " + b1);
-            resp.getWriter().print("rXY: " + r);
-            resp.getWriter().print("r2: " + (r*r));
-            resp.getWriter().print("yk: " + yk);
+            resp.getWriter().print("xk: " + xk+ " \n");
+            resp.getWriter().print("b0: " + b0+ " \n");
+            resp.getWriter().print("b1: " + b1+ " \n");
+            resp.getWriter().print("rXY: " + r+ " \n");
+            resp.getWriter().print("r2: " + (r*r)+ " \n");
+            resp.getWriter().print("yk: " + yk+ " \n");
             
             resp.getWriter().print("");
 
 
         } catch (FileNotFoundException ex) {
-            resp.getWriter().print("No se encuentra el archivo especificado, se debe ubicar en la carpeta /src/test/resources/");
+            resp.getWriter().print("No se encuentra el archivo especificado, se debe ubicar en la carpeta /src/test/resources/"+ " \n");
         } catch (IOException ex) {
-            resp.getWriter().print("Error al leer el archivo especificado");
+            resp.getWriter().print("Error al leer el archivo especificado"+ " \n");
         } catch (NumberFormatException ex) {
-            resp.getWriter().print("Error en el formato de los archivos deben haber dos numeros en cada linea separados por tabulacion, asi como el valor de xk deben ser Double");
+            resp.getWriter().print("Error en el formato de los archivos deben haber dos numeros en cada linea separados por tabulacion, asi como el valor de xk deben ser Double"+ " \n");
         }
   }
 
