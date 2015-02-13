@@ -1,8 +1,6 @@
 package edu.uniandes.ecos.ui;
 
 
-import edu.uniandes.ecos.MeanService;
-import edu.uniandes.ecos.StandardDeviationService;
 import edu.uniandes.ecos.biz.RegressionBiz;
 import edu.uniandes.ecos.util.FileUtil;
 import edu.uniandes.ecos.vo.ParVO;

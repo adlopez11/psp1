@@ -30,7 +30,7 @@ public class RegressionBiz {
         
         double acum2 = 0d;
         for(ParVO vo : lista){
-            acum1 = acum1 + (vo.getX()*vo.getX());
+            acum2 = acum2 + (vo.getX()*vo.getX());
         }
         
         return (acum1-(n*promX*promY))/(acum2-(n*promX*promX));

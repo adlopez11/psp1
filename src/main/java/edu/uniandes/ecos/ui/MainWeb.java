@@ -1,7 +1,11 @@
 package edu.uniandes.ecos.ui;
 
+import edu.uniandes.ecos.biz.RegressionBiz;
+import edu.uniandes.ecos.util.FileUtil;
+import edu.uniandes.ecos.vo.ParVO;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
+import java.util.LinkedList;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import org.eclipse.jetty.server.Server;
@@ -11,40 +15,46 @@ public class MainWeb extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-//      final List<Aplicacion> aplicaciones = FileBiz.buscarProyectos();
-//      imprimirWeb(aplicaciones,resp);
+      process("test1.txt",386d,resp);
+      process("test2.txt",386d,resp);
+      process("test3.txt",386d,resp);
+      process("test4.txt",386d,resp);
   }
   
-//  private void imprimirWeb(final List<Aplicacion> aplicaciones, HttpServletResponse resp) throws IOException{
-////        resp.getWriter().print("LOC de Aplicaciones\n\n");
-////        for(int i = 0;i< aplicaciones.size();i++){
-////            Aplicacion aplicacion = aplicaciones.get(i);
-////            resp.getWriter().print("Aplicacion #"+(i+1)+"\n\n");
-////            resp.getWriter().print("Nombre: "+aplicacion.getNombre()+"\n");
-////            resp.getWriter().print("Numero de Clases: "+aplicacion.getClases().size()+"\n");
-////            resp.getWriter().print("Total LOC: "+getLineasTotales(aplicacion)+"\n");
-////            resp.getWriter().print("Clases:\n\n");
-////            for(Clase clase: aplicacion.getClases()){
-////                resp.getWriter().print("Nombre Clase: "+clase.getNombre()+"\n");
-////                resp.getWriter().print("LOC Clase: "+clase.getLineas()+"\n");
-////                resp.getWriter().print("Numero de Metodos: "+clase.getMetodos().size()+"\n");
-////                resp.getWriter().print("Metodos:"+"\n");
-////                for(Metodo metodo : clase.getMetodos()){
-////                    resp.getWriter().print("Nombre Metodo: "+metodo.getNombre()+"\n");
-////                    resp.getWriter().print("LOC Metodo: "+metodo.getLineas()+"\n");
-////                }
-////            }
-////            resp.getWriter().print("\n\n");
-//        }
-//    }
-//    
-//    private int getLineasTotales(final Aplicacion aplicacion){
-//        int cont =0;
-//        for(Clase clase: aplicacion.getClases()){
-//            cont = cont + clase.getLineas();
-//        }
-//        return cont;
-//    }
+  private void process(String file, Double xk, HttpServletResponse resp) throws IOException{
+       try {
+           
+            resp.getWriter().print("Prueba "+file);
+
+            LinkedList<ParVO> listPar = FileUtil.getListNumbers(file);
+           
+            
+            Double b1 = RegressionBiz.getB1(listPar);
+            
+            Double b0 = RegressionBiz.getB0(listPar, b1);
+            
+            Double r = RegressionBiz.getR(listPar);
+            
+            Double yk = RegressionBiz.getYk(b0, b1, xk);
+
+            resp.getWriter().print("xk: " + xk);
+            resp.getWriter().print("b0: " + b0);
+            resp.getWriter().print("b1: " + b1);
+            resp.getWriter().print("rXY: " + r);
+            resp.getWriter().print("r2: " + (r*r));
+            resp.getWriter().print("yk: " + yk);
+            
+            resp.getWriter().print("");
+
+
+        } catch (FileNotFoundException ex) {
+            resp.getWriter().print("No se encuentra el archivo especificado, se debe ubicar en la carpeta /src/test/resources/");
+        } catch (IOException ex) {
+            resp.getWriter().print("Error al leer el archivo especificado");
+        } catch (NumberFormatException ex) {
+            resp.getWriter().print("Error en el formato de los archivos deben haber dos numeros en cada linea separados por tabulacion, asi como el valor de xk deben ser Double");
+        }
+  }
 
   public static void main(String[] args) throws Exception {
     Server server = new Server(Integer.valueOf(System.getenv("PORT")));
